@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Run Opera 6.5 in Google Colab</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:800px;margin:2rem auto;padding:0 1rem;line-height:1.5}
+pre{background:#111;color:#eee;padding:1rem;border-radius:8px;overflow:auto}
+code{font-family:ui-monospace,monospace}
+</style>
+</head>
+<body>
+<h1>Run Opera 6.5 MIDlet in Google Colab</h1>
+<h2>1. Clone and serve</h2>
+<pre><code>!git clone https://github.com/tmfahad39/opera65-mini-web.git
+%cd opera65-mini-web
+!npm install -g serve
+!nohup serve -l 8000 > /tmp/serve.log 2>&1 &</code></pre>
+<h2>2. Expose port (pick one)</h2>
+<h3>ngrok</h3>
+<pre><code>!pip -q install pyngrok
+from pyngrok import ngrok
+print(ngrok.connect(8000).public_url)</code></pre>
+<h3>cloudflared</h3>
+<pre><code>!wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -O /usr/local/bin/cloudflared
+!chmod +x /usr/local/bin/cloudflared
+!cloudflared tunnel --url http://localhost:8000</code></pre>
+<h2>3. Open the URL</h2>
+<p>Open the printed URL and wait for CheerpJ to load. Controls: arrow keys, Enter, 0-9, *, #, P (pause).</p>
+<p>Notes: Colab runtimes reset after idle. <code>serve</code> supports Range headers (required by CheerpJ); <code>python -m http.server</code> may not.</p>
+</body>
+</html>
