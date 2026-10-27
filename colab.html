@@ -17,10 +17,12 @@ code{font-family:ui-monospace,monospace}
 !npm install -g serve
 !nohup serve -l 8000 > /tmp/serve.log 2>&1 &</code></pre>
 <h2>2. Expose port (pick one)</h2>
-<h3>ngrok</h3>
-<pre><code>!pip -q install pyngrok
-from pyngrok import ngrok
-print(ngrok.connect(8000).public_url)</code></pre>
+<h3>Colab built-in proxy (no ngrok)</h3>
+<pre><code>from google.colab.output import eval_js
+print(eval_js("google.colab.kernel.proxyPort(8000)"))</code></pre>
+<p>Or open in an iframe:</p>
+<pre><code>from google.colab import output
+output.serve_kernel_port_as_iframe(8000)</code></pre>
 <h3>cloudflared</h3>
 <pre><code>!wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -O /usr/local/bin/cloudflared
 !chmod +x /usr/local/bin/cloudflared
